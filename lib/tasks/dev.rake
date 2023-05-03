@@ -29,8 +29,12 @@ namespace :dev do
         %x(rails dev:add_extra_admins)
       end
 
-      show_spinner("Creating pattern subjects...") do
+      show_spinner("Creating default subjects...") do
         %x(rails dev:add_subjects)
+      end
+
+      show_spinner("Creating default questions and answers...") do
+        %x(rails dev:add_questions_and_answers)
       end
     else
       puts "Você não está em ambiente de desenvolvimento"
@@ -73,6 +77,18 @@ namespace :dev do
 
     File.open(file_path, 'r').each do |line|
       Subject.create!(description: line.strip)
+    end
+  end
+
+  desc "Adiciona perguntas e respostas padrões"
+  task add_questions_and_answers: :environment do
+    Subject.all.each do |subject|
+      rand(5..10).times do |i|
+        Question.create(
+          description: "#{Faker::Lorem.paragraph} #{Faker::Lorem.question}",
+          subject: subject
+        )
+      end
     end
   end
 

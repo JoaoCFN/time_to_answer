@@ -1,9 +1,8 @@
 class AdminsBackoffice::SubjectsController < AdminsBackofficeController
-  before_action :password_verify, only: [:update]
   before_action :set_subject, only: [:edit, :update, :destroy]
 
   def index
-    @subjects = Subject.all.page(params[:page])
+    @subjects = Subject.all.order(:description).page(params[:page])
   end
 
   def new
