@@ -18,6 +18,8 @@ Rails.application.config.assets.precompile += %w(
     admins_backoffice.js 
     users_backoffice.css 
     users_backoffice.js 
+    admin_devise.css 
+    admin_devise.js 
 )
 
 # /lib/assets
