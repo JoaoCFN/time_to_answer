@@ -44,8 +44,8 @@ namespace :dev do
   desc "Add the default admin"
   task add_default_admin: :environment do
     Admin.create!(
-      email: 'admin@admin.com.br', 
-      password: DEFAULT_PASSWORD, 
+      email: 'admin@admin.com.br',
+      password: DEFAULT_PASSWORD,
       password_confirmation: DEFAULT_PASSWORD
     )
   end
@@ -53,8 +53,8 @@ namespace :dev do
   desc "Add the default user"
   task add_default_user: :environment do
     User.create!(
-      email: 'user@user.com.br', 
-      password: DEFAULT_PASSWORD, 
+      email: 'user@user.com.br',
+      password: DEFAULT_PASSWORD,
       password_confirmation: DEFAULT_PASSWORD
     )
   end
@@ -86,11 +86,20 @@ namespace :dev do
       rand(5..10).times do |i|
         params = create_question_params(subject)
         answers_array = params[:question][:answers_attributes]
-        
+
         add_answers(answers_array)
         elect_true_answer(answers_array)
 
         Question.create!(params[:question])
+      end
+    end
+  end
+
+  desc "Reseta o contador dos assuntos"
+  task reset_subject_counter: :environment do
+    show_spinner("Reset subjects counter...") do
+      Subject.all.each do |subject|
+        Subject.reset_counters(subject.id, :questions)
       end
     end
   end
