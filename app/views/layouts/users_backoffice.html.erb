@@ -30,11 +30,12 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <%= image_tag 'img.jpg', alt:"...", class:"img-circle profile_img" %>
+                <%= link_to image_tag('img.jpg', alt:"...", class:"img-circle profile_img"), '#', "data-toggle": "modal", "data-target": "#avatarModal" %>
               </div>
               <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2 style="margin-top: 1.25rem">
+                  <%= user_sidebar_message %>
+                </h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -200,7 +201,46 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="avatarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Modal -->
+
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag 'users_backoffice' %>
+
+    <% if notice %>
+      <script>
+        $.bootstrapGrowl('<%= notice %>', {
+          type: 'success', // (null, 'info', 'error', 'success')
+          align: 'right', // ('left', 'right', or 'center')
+          allow_dismiss: true,
+          stackup_spacing: 10 // spacing between consecutively stacked growls.
+        });
+      </script>
+    <% end %>
+
+    <%= javascript_tag do %>
+      $(function(){
+        $(".datepicker").datepicker();
+      });
+    <% end %>
   </body>
 </html>
