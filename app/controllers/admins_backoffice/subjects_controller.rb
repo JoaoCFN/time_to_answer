@@ -2,7 +2,11 @@ class AdminsBackoffice::SubjectsController < AdminsBackofficeController
   before_action :set_subject, only: [:edit, :update, :destroy]
 
   def index
-    @subjects = Subject.all.order(:description).page(params[:page])
+    respond_to do |format|
+      format.html { @subjects = Subject.all.order(:description).page(params[:page]) }
+      format.pdf { @subjects = Subject.all.order(:description) }
+    end
+
   end
 
   def new
@@ -21,7 +25,7 @@ class AdminsBackoffice::SubjectsController < AdminsBackofficeController
 
   def edit
   end
-  
+
   def update
     if(@subject.update(params_subject))
       redirect_to admins_backoffice_subjects_path, notice: "Assunto/Área atualizado com sucesso"
@@ -37,7 +41,7 @@ class AdminsBackoffice::SubjectsController < AdminsBackofficeController
       render :index
     end
   end
-  
+
   private
     def params_subject
       params.require(:subject).permit(:description)
